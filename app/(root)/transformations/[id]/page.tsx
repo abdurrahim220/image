@@ -1,11 +1,8 @@
-import Header from '@/components/shared/Header'
 import React from 'react'
 
 const TransformationPage = () => {
   return (
-    <>
-    <Header/>
-    </>
+    <div>Transformation Page</div>
   )
 }
 

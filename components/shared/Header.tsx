@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
 
-const Header = () => {
+const Header = ({ title, subTitle }: { title: string; subTitle?: string }) => {
   return (
-    <div className='text-[#000]'>Header </div>
-  )
-}
+    <>
+      <h2 className="h2-bold text-dark-600">{title}</h2>
+      {subTitle && <p className="p-16-regular mt-4">{subTitle}</p>}
+    </>
+  );
+};
 
-export default Header
+export default Header;
