@@ -23,9 +23,13 @@ import {
 } from "@/components/ui/select";
 
 import { Input } from "@/components/ui/input";
-import { aspectRatioOptions, defaultValues, transformationTypes } from "@/constants";
+import {
+  aspectRatioOptions,
+  defaultValues,
+  transformationTypes,
+} from "@/constants";
 import { CustomField } from "./CustomField";
-import { useState } from "react";
+import { use, useState } from "react";
 import { AspectRatioKey } from "@/lib/utils";
 
 export const formSchema = z.object({
@@ -42,6 +46,7 @@ const TransformationForm = ({
   type,
   creditBalance,
   userId,
+  config = null,
 }: TransformationFormProps) => {
   const transformation = transformationTypes[type];
 
@@ -49,6 +54,10 @@ const TransformationForm = ({
 
   const [newTransformation, setNewTransformation] =
     useState<Transformations | null>(null);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isTransforming, setIsTransforming] = useState(false);
+  const [transformationConfig, setTransformationConfig] = useState(config);
 
   const initialValues =
     data && action === "Update"
@@ -73,7 +82,22 @@ const TransformationForm = ({
   const onSelectFieldHandler = (
     value: string,
     onChangeField: (value: string) => void
+  ) => {
+
+    
+
+
+
+  };
+
+  const onInputChangeHandler = (
+    fieldName: string,
+    value: string,
+    type: string,
+    onChangeField: (value: string) => void
   ) => {};
+
+  const onTransformHandler = () => {};
 
   return (
     <Form {...form}>
@@ -85,22 +109,24 @@ const TransformationForm = ({
           className="w-full"
           render={({ field }) => <Input {...field} className="input-field" />}
         />
+
         {type === "fill" && (
           <CustomField
-
-          control={form.control}
-          name="aspectRatio"
-          formLabel="Aspect Ratio"
-          className="w-full"
+            control={form.control}
+            name="aspectRatio"
+            formLabel="Aspect Ratio"
+            className="w-full"
             render={({ field }) => (
-              <Select 
-              onValueChange={(value)=> onSelectFieldHandler(value,field.onChange)}
+              <Select
+                onValueChange={(value) =>
+                  onSelectFieldHandler(value, field.onChange)
+                }
               >
                 <SelectTrigger className="select-field">
                   <SelectValue placeholder="Select size" />
                 </SelectTrigger>
                 <SelectContent>
-                  {Object.keys(aspectRatioOptions).map((key)=>(
+                  {Object.keys(aspectRatioOptions).map((key) => (
                     <SelectItem key={key} value={key} className="select-item">
                       {aspectRatioOptions[key as AspectRatioKey].label}
                     </SelectItem>
@@ -110,6 +136,73 @@ const TransformationForm = ({
             )}
           />
         )}
+
+        {(type === "remove" || type === "recolor") && (
+          <div className="prompt-field">
+            <CustomField
+              control={form.control}
+              name="prompt"
+              formLabel={
+                type === "remove" ? "Object to remove" : "Object to recolor"
+              }
+              className="w-full"
+              render={({ field }) => (
+                <Input
+                  value={field.value}
+                  className="input-field"
+                  onChange={(e) =>
+                    onInputChangeHandler(
+                      "prompt",
+                      e.target.value,
+                      type,
+                      field.onchange
+                    )
+                  }
+                />
+              )}
+            />
+
+            {type === "recolor" && (
+              <CustomField
+                control={form.control}
+                name="color"
+                formLabel="Replacement Color"
+                className="w-full"
+                render={({ field }) => (
+                  <Input
+                    value={field.value}
+                    className="input-field"
+                    onChange={(e) =>
+                      onInputChangeHandler(
+                        "color",
+                        e.target.value,
+                        "recolor",
+                        field.onchange
+                      )
+                    }
+                  />
+                )}
+              />
+            )}
+          </div>
+        )}
+        <div className="flex flex-col gap-4">
+          <Button
+            type="button"
+            disabled={isTransforming || newTransformation === null}
+            className="submit-button capitalize"
+            onClick={onTransformHandler}
+          >
+            {isTransforming ? "Transforming..." : "Apply transformation"}
+          </Button>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="submit-button capitalize"
+          >
+            {isSubmitting ? "Submitting" : "Save Image"}
+          </Button>
+        </div>
       </form>
     </Form>
   );
