@@ -11,11 +11,13 @@ const AddTransformationTypePage = async ({
   params: { type },
 }: SearchParamProps) => {
   const { userId } = auth();
+  // console.log(userId)
   const transformation = transformationTypes[type];
 
   if (!userId) redirect("/sign-in");
 
   const user = await getUserById(userId);
+  // console.log(user)
 
   return (
     <>
