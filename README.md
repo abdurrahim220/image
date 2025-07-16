@@ -1,29 +1,94 @@
-# Technologies Used
+---
+title: 'ImageAiApp'
+subtitle: 'A full-stack AI-powered image transformation web application built with Next.js, TypeScript, and MongoDB.'
+date: '2025-07-16'
+topics: ['Full Stack', 'Next.js', 'AI', 'Image Processing', 'MongoDB', 'Stripe', 'Clerk', 'Cloudinary']
+---
 
-- This is full stack NextJs SASS Web Application
-- Used NextJs@14 with TypeScript
-- Used chadcn/ui to design beautiful components.
-- Cloudinary AI used to Leveraging a generative AI to remove objects from our images via natural language prompts seamlessly,
-- Clerk for authentication apply google and github
-- Stripe for payment
-- zod for form handler.
-- For backend database used mongodb,nodejs
+# ImageAiApp — Technical Project Review
 
-# Features in this ImageAi
+## Project Summary
 
-- There is total 5 features in ImageAi
-- Image Restore, Generated Fill, Object Remove,Object Recolor,Background remove,
-- In Image Restore it will restore your old image to new improve image.
-- Generated Fill it will reshape your image size.
-- Object remove it will remote the objects which is don't need in your image.
-- Object Recolor it will recolor some of the objects that is looking not good but you can make it look good by implement new colors.
-- Background remove it will remove the background of your image.
-- Also any one can download any image after the change made.
-- Also any user can delete their images.Can can view their edit and there is a update button also.
+ImageAiApp is a modern, full-stack web application designed for advanced image manipulation using generative AI. Built with Next.js 14, TypeScript, and MongoDB, it enables users to restore, fill, remove objects, recolor, and remove backgrounds from images. The platform features authentication, credit-based usage, and seamless payment integration, making it suitable for both casual and professional users.
 
-# User Guide
+## Architecture & Structure
 
-- First of all you have to create a user account through google login or github login set username which should be unique
-- After that by default you will be given 10 credit which is free and if you use any of the feature of our site it will conduct one credit form your account after that you have to buy the credit to use those feature again in the site.
-- All editing will be seen in your profile section
-- You can delete from there and edit your design again.
+- **Frontend (Next.js 14, TypeScript)**: Modular pages and components for image transformation, user profile, credits, and authentication.
+- **Backend (Node.js, MongoDB)**: API routes for user, image, and transaction management, with webhooks for Clerk (auth) and Stripe (payments).
+- **Authentication**: Clerk integration supporting Google and GitHub login.
+- **Payment**: Stripe integration for purchasing credits.
+- **AI Image Processing**: Cloudinary AI for generative image transformations via natural language prompts.
+- **State Management**: React hooks and server actions for seamless UX.
+- **Validation**: Zod for form and API validation.
+
+## Features & Implementation
+
+- **Image Transformations**: Five core features—Restore, Generative Fill, Object Remove, Object Recolor, Background Remove.
+- **Credit System**: Users receive free credits on signup; each transformation deducts credits. Additional credits can be purchased via Stripe.
+- **User Management**: Profile page displays credit balance and transformation history. Users can update or delete images.
+- **Authentication**: Secure login via Clerk (Google/GitHub), with user metadata managed via webhooks.
+- **Payment & Transactions**: Stripe checkout for credit packages; transaction history managed in MongoDB.
+- **Error Handling**: Centralized error handler for API and UI errors.
+- **Responsive UI**: Built with chadcn/ui and Tailwind CSS for a modern, mobile-friendly experience.
+
+## Technologies
+
+- Next.js 14, TypeScript
+- MongoDB (Mongoose ODM)
+- Cloudinary AI
+- Clerk (Authentication)
+- Stripe (Payments)
+- Zod (Validation)
+- chadcn/ui, Tailwind CSS
+
+## Project Structure Example
+
+```
+app/
+  (root)/
+    layout.tsx
+    page.tsx
+    profile/
+    credits/
+    transformations/
+      [id]/
+      add/[type]/
+      ...
+  api/webhooks/
+    clerk/
+    stripe/
+components/
+  shared/
+  ui/
+constants/
+lib/
+  actions/
+  database/
+  models/
+  utils.ts
+public/
+types/
+```
+
+## Notable Design Choices
+
+- **Modularization**: Clear separation of concerns between UI, business logic, and API routes.
+- **Credit-Based Access**: Monetization via credits, with free tier and paid packages.
+- **AI Integration**: Cloudinary for advanced image manipulation.
+- **Security**: Clerk for authentication, Stripe for secure payments, and robust error handling.
+- **Validation**: Zod schemas for all forms and API endpoints.
+- **Responsive Design**: Mobile-first UI with Tailwind CSS and chadcn/ui components.
+
+## How to Run
+
+1. Clone the repository: `git clone <your-repo-url> && cd ImageAiApp`
+2. Install dependencies: `npm install`
+3. Start development: `npm run dev` or start production: `npm start`
+
+## Conclusion
+
+ImageAiApp demonstrates a production-ready, scalable approach to AI-powered image transformation. With modular architecture, secure authentication, and seamless payment integration, it is suitable for real-world deployment and extensibility.
+
+## License
+
+This project is licensed under the MIT License.
